@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mercês Panificadora</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-main: #040507;
+      --bg-elevated: #060911;
+      --bg-card: #0b111b;
+      --accent: #f4c96b;
+      --accent-strong: #b77715;
+      --text-main: #f7f7f7;
+      --text-muted: #c2c2c2;
+      --border-soft: rgba(255,255,255,0.08);
+      --radius-lg: 18px;
+      --shadow-soft: 0 18px 40px rgba(0,0,0,0.85);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #141724 0, #040507 45%, #020305 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ---------- FARINHA / FUNDO ANIMADO ---------- */
+    .flour-layer {
+      pointer-events: none;
+      position: fixed;
+      inset: -40px;
+      background-image:
+        radial-gradient(circle at 8% -10%, rgba(255,255,255,0.18) 0, transparent 55%),
+        radial-gradient(circle at 92% -5%, rgba(255,255,255,0.12) 0, transparent 60%);
+      opacity: 0.16;
+      mix-blend-mode: screen;
+      animation: flourDrift 18s linear infinite alternate;
+      z-index: 0;
+    }
+    @keyframes flourDrift {
+      0%   { transform: translate3d(0,-18px,0) scale(1); }
+      50%  { transform: translate3d(12px,6px,0) scale(1.03); }
+      100% { transform: translate3d(-10px,24px,0) scale(1.01); }
+    }
+
+    /* ---------- HEADER / NAV ---------- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(4,5,7,0.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 20% 0%, #ffe6a9, #f4c96b, #b77715);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#1a1204;
+      font-weight: 800;
+      font-size: 14px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.22),
+                  0 14px 34px rgba(0,0,0,0.85);
+    }
+    .brand-text {
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+    .brand-text span:first-child {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-weight: 700;
+    }
+    .brand-text span:last-child {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display:flex;
+      gap: 18px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+    .nav-links a {
+      position:relative;
+      opacity:0.78;
+      padding-bottom:4px;
+      transition: opacity .18s ease, color .18s ease;
+    }
+    .nav-links a::after {
+      content:"";
+      position:absolute;
+      left:0; right:0; bottom:-4px;
+      height:2px;
+      border-radius:999px;
+      background: linear-gradient(90deg,var(--accent),var(--accent-strong));
+      transform:scaleX(0);
+      transform-origin:center;
+      transition:transform .22s ease-out;
+    }
+    .nav-links a:hover {
+      opacity:1;
+      color:var(--accent);
+    }
+    .nav-links a:hover::after {
+      transform:scaleX(1);
+    }
+
+    /* ---------- MAIN / SEÇÕES ---------- */
+    main {
+      position:relative;
+      z-index:1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 18px 80px;
+    }
+    section {
+      padding: 40px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ---------- REVEAL ANIMATION ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- HERO / MOBILE-FIRST ---------- */
+    .hero {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      align-items:center;
+    }
+    @media(min-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr);
+        gap: 32px;
+      }
+    }
+    .hero-kicker {
+      font-size: 11px;
+      text-transform:uppercase;
+      letter-spacing:0.22em;
+      color:var(--accent);
+      margin-bottom:8px;
+    }
+    .hero-title {
+      font-size: clamp(30px, 6vw, 42px);
+      font-weight: 800;
+      line-height:1.08;
+      margin-bottom:12px;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color:var(--text-muted);
+      max-width: 460px;
+      margin-bottom: 18px;
+    }
+    .hero-badges {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom: 22px;
+    }
+    .badge {
+      padding:4px 11px;
+      border-radius:999px;
+      border:1px solid rgba(244,201,107,0.35);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      color:var(--accent);
+      background:rgba(7,9,15,0.8);
+    }
+    .hero-cta {
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .btn {
+      position:relative;
+      overflow:hidden;
+      border-radius:999px;
+      cursor:pointer;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      font-size: 11px;
+      font-weight:600;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding: 10px 20px;
+      border:none;
+      outline:none;
+      transition: transform .14s ease, box-shadow .14s ease, background .14s ease, color .14s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg,var(--accent),var(--accent-strong));
+      color:#1a1204;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.85);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.9);
+    }
+    .btn-secondary {
+      background: transparent;
+      color:var(--text-main);
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.04);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.8);
+    }
+    .btn span.icon {
+      font-size:14px;
+    }
+
+    .hero-image {
+      position:relative;
+      border-radius: 22px;
+      overflow:hidden;
+      min-height: 230px;
+      background:
+        radial-gradient(circle at top left, #f4c96b22, transparent 55%),
+        url("https://images.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg?auto=compress&cs=tinysrgb&w=800") center/cover no-repeat;
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-overlay-gradient {
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 45%);
+    }
+    .hero-pill {
+      position:absolute;
+      bottom:14px;
+      left:14px;
+      right:14px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(4,6,10,0.88);
+      backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,0.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size: 11px;
+    }
+    .hero-pill strong { font-size: 13px; }
+
+    /* ---------- TÍTULOS SEÇÃO ---------- */
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .section-sub {
+      font-size: 13px;
+      color:var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    /* ---------- LISTA DE PRODUTOS ---------- */
+    .product-grid {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media(min-width: 640px) {
+      .product-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+    @media(min-width: 980px) {
+      .product-grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
+    }
+
+    .product-card {
+      position:relative;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top, #141a24 0, #080b12 40%, #05070c 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      overflow:hidden;
+      padding: 10px 10px 12px;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.8);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+    .product-card::before {
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 0 0, rgba(244,201,107,0.14), transparent 55%);
+      opacity:0;
+      transition: opacity .25s ease;
+      pointer-events:none;
+    }
+    .product-card:hover {
+      transform: translateY(-4px) translateZ(0);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.95);
+      border-color: rgba(244,201,107,0.5);
+    }
+    .product-card:hover::before { opacity:1; }
+
+    .product-image {
+      position:relative;
+      border-radius: 14px;
+      overflow:hidden;
+      height: 120px;
+      margin-bottom: 8px;
+      background:#111;
+    }
+    .product-image img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform:scale(1.06);
+      transition: transform .4s ease;
+    }
+    .product-card:hover .product-image img {
+      transform:scale(1.12);
+    }
+    .chip {
+      position:absolute;
+      bottom:8px;
+      left:8px;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      background: rgba(4,6,10,0.82);
+      border:1px solid rgba(255,255,255,0.16);
+    }
+
+    .product-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:6px;
+      margin-bottom:4px;
+    }
+    .product-name {
+      font-size: 13px;
+      font-weight:600;
+    }
+    .product-category {
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:var(--accent);
+      margin-bottom:2px;
+    }
+    .product-price {
+      font-size:13px;
+      font-weight:600;
+      color:var(--accent);
+    }
+    .product-ingredients {
+      font-size:11px;
+      color:var(--text-muted);
+      margin-bottom:4px;
+    }
+    .product-stock {
+      font-size:11px;
+      color:#86d38b;
+    }
+    .product-footer {
+      margin-top:8px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .qty-input {
+      width:56px;
+      padding:5px 6px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:rgba(5,7,11,0.9);
+      color:var(--text-main);
+      font-size:12px;
+      text-align:center;
+    }
+    .btn-add {
+      flex:1;
+      border-radius:999px;
+      border:none;
+      padding:7px 10px;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.16em;
+      background: linear-gradient(135deg,var(--accent),var(--accent-strong));
+      color:#1a1204;
+      cursor:pointer;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.9);
+      transition: transform .14s ease, box-shadow .14s ease;
+    }
+    .btn-add:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.95);
+    }
+
+    /* ---------- FORM / APP FEEL ---------- */
+    .form-wrapper {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media(min-width: 920px) {
+      .form-wrapper {
+        grid-template-columns: minmax(0,1.2fr) minmax(0,0.9fr);
+      }
+    }
+    .form-card {
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top, #141724 0, #060910 50%, #05070c 100%);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow-soft);
+      padding: 16px 16px 18px;
+    }
+    .form-card h3 {
+      font-size:15px;
+      margin-bottom:8px;
+    }
+    .field-group {
+      display:flex;
+      flex-direction:column;
+      margin-bottom:10px;
+      font-size:12px;
+    }
+    .field-group label {
+      margin-bottom:3px;
+      color:var(--text-muted);
+    }
+    .field-group input,
+    .field-group select,
+    .field-group textarea {
+      padding:7px 9px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.18);
+      background: rgba(4,6,10,0.92);
+      color:var(--text-main);
+      font-size:12px;
+      outline:none;
+      transition:border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+    .field-group input:focus,
+    .field-group select:focus,
+    .field-group textarea:focus {
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(244,201,107,0.4);
+      background: rgba(6,9,16,0.98);
+    }
+    .field-inline {
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media(min-width: 600px) {
+      .field-inline {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+      }
+    }
+    textarea { resize:vertical; min-height:60px; }
+
+    .summary-card {
+      border-radius: var(--radius-lg);
+      background: rgba(4,6,10,0.96);
+      border: 1px dashed rgba(244,201,107,0.65);
+      padding: 14px 14px 16px;
+      font-size:12px;
+    }
+    .summary-row {
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:4px;
+    }
+
+    .status-message {
+      margin-top:8px;
+      font-size:12px;
+    }
+    .status-ok { color:#7bdc7b; }
+    .status-error { color:#ff9b9b; }
+
+    /* ---------- CONTATO ---------- */
+    .contact {
+      font-size:13px;
+      color:var(--text-muted);
+      line-height:1.7;
+    }
+
+    /* ---------- FLOATING CTA MOBILE ---------- */
+    .fab {
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:35;
+      border-radius:999px;
+      padding:10px 18px;
+      border:none;
+      background:linear-gradient(135deg,var(--accent),var(--accent-strong));
+      color:#1a1204;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:0 16px 38px rgba(0,0,0,0.95);
+      cursor:pointer;
+    }
+    @media(min-width: 900px) {
+      .fab { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="flour-layer"></div>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <div class="logo-mark">M</div>
+      <div class="brand-text">
+        <span>MERCÊS</span>
+        <span>PANIFICADORA</span>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#inicio">Início</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#pedido">Fazer pedido</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section id="inicio" class="reveal">
+    <div class="hero">
+      <div>
+        <div class="hero-kicker">Atendimento para empresas & eventos</div>
+        <h1 class="hero-title">Seu cardápio artesanal com cara de sistema de grandes redes.</h1>
+        <p class="hero-sub">
+          A <strong>Mercês Panificadora</strong> agora tem pedidos online, estoque inteligente
+          e logística programada para o seu negócio. Tudo isso com o sabor de padaria de bairro.
+        </p>
+        <div class="hero-badges">
+          <span class="badge">Controle de estoque em tempo real</span>
+          <span class="badge">Pedidos pelo celular</span>
+          <span class="badge">Ideal para clientes PJ</span>
+        </div>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="scrollToSection('pedido')">
+            <span class="icon">⬤</span> FAZER PEDIDO ONLINE
+          </button>
+          <button class="btn btn-secondary" onclick="scrollToSection('produtos')">
+            VER PRODUTOS
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="hero-overlay-gradient"></div>
+        <div class="hero-pill">
+          <div>
+            <strong>Produção cuidadosa</strong><br />
+            Baguetes, pães de batata, esfirras e muito mais.
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:11px;color:var(--accent);">Hoje</div>
+            <div style="font-size:13px;">Estoque atualizado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS -->
+  <section id="produtos" class="reveal">
+    <h2 class="section-title">Cardápio em destaque</h2>
+    <p class="section-sub">
+      Visual que o seu cliente vê: cards com foto, descrição, preço e estoque aproximado.
+      Depois você pode plugar tudo isso direto na planilha.
+    </p>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- PEDIDO -->
+  <section id="pedido" class="reveal">
+    <h2 class="section-title">Fazer pedido</h2>
+    <p class="section-sub">
+      Tela em formato de aplicativo: o cliente preenche os dados, escolhe o produto, tipo,
+      dia e horário da entrega. O resto o sistema cuida.
+    </p>
+
+    <div class="form-wrapper">
+      <form class="form-card" id="orderForm">
+        <h3>Dados do cliente</h3>
+        <div class="field-group">
+          <label for="nome">Nome / Empresa</label>
+          <input id="nome" name="nome" required />
+        </div>
+
+        <div class="field-inline">
+          <div class="field-group">
+            <label for="celular">Celular / WhatsApp</label>
+            <input id="celular" name="celular" placeholder="(00) 00000-0000" required />
+          </div>
+          <div class="field-group">
+            <label for="cidade">Cidade</label>
+            <input id="cidade" name="cidade" required />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="endereco">Endereço completo</label>
+          <input id="endereco" name="endereco" placeholder="Rua, número, bairro, complemento" required />
+        </div>
+
+        <h3 style="margin-top:14px;">Dados do pedido</h3>
+
+        <div class="field-group">
+          <label for="produto">Produto</label>
+          <select id="produto" name="produto" required>
+            <option value="">Selecione um produto</option>
+          </select>
+        </div>
+
+        <div class="field-inline">
+          <div class="field-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" id="quantidade" name="quantidade" min="1" value="1" required />
+          </div>
+          <div class="field-group">
+            <label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo">
+              <option value="Assado">Assado</option>
+              <option value="Congelado">Congelado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-inline">
+          <div class="field-group">
+            <label for="diaEntrega">Dia da entrega</label>
+            <input type="date" id="diaEntrega" name="diaEntrega" required />
+          </div>
+          <div class="field-group">
+            <label for="horaEntrega">Hora da entrega</label>
+            <input type="time" id="horaEntrega" name="horaEntrega" required />
+          </div>
+        </div>
+
+        <div class="field-inline">
+          <div class="field-group">
+            <label for="pagamento">Forma de pagamento</label>
+            <select id="pagamento" name="pagamento">
+              <option value="Pix">Pix</option>
+              <option value="Dinheiro">Dinheiro</option>
+              <option value="Cartão">Cartão</option>
+              <option value="Faturado PJ">Faturado PJ</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="frete">Frete (R$) – opcional</label>
+            <input id="frete" name="frete" type="number" step="0.01" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label for="observacao">Observações</label>
+          <textarea id="observacao" name="observacao" placeholder="Ex: deixar na portaria, sem cebola, etc."></textarea>
+        </div>
+
+        <button class="btn btn-primary" type="submit">
+          <span class="icon">●</span> ENVIAR PEDIDO
+        </button>
+        <div id="status" class="status-message"></div>
+      </form>
+
+      <div class="summary-card">
+  <div class="summary-row">
+    <strong>Seu carrinho</strong>
+    <span style="font-size:12px;">
+      Itens: <span id="cartTotal">0</span>
+    </span>
+  </div>
+
+  <p id="emptyCartMsg" style="margin-top:6px; color:#c2c2c2;">
+    Nenhum produto no carrinho ainda. Clique em <strong>“Adicionar ao pedido”</strong>
+    nos produtos para montar seu pedido.
+  </p>
+
+  <div id="cartBox" style="margin-top:10px; display:none;">
+    <ul id="cartList" style="margin-top:6px; padding-left:0; list-style:none; display:flex; flex-direction:column; gap:10px;"></ul>
+
+    <div style="margin-top:12px; display:flex; gap:10px;">
+      <button id="btnClearCart" type="button"
+        style="flex:1; border-radius:999px; border:1px solid rgba(255,255,255,0.2);
+               background:transparent; color:#f7f7f7; padding:9px 12px;
+               font-size:10px; text-transform:uppercase; letter-spacing:0.18em; cursor:pointer;">
+        Limpar carrinho
+      </button>
+
+      <button id="btnReview" type="button"
+        style="flex:1; border-radius:999px; border:none;
+               background:linear-gradient(135deg,#f4c96b,#b77715); color:#1a1204;
+               padding:9px 12px; font-size:10px; text-transform:uppercase;
+               letter-spacing:0.18em; cursor:pointer;">
+        Revisar pedido
+      </button>
+    </div>
+  </div>
+
+  <p style="margin-top:12px; font-size:11px; color:#9e9e9e;">
+    Ao enviar o pedido, ele entra como <strong>PENDENTE</strong> na planilha para aprovação.
+  </p>
+</div>
+
+<!-- Toast (mensagem animada) -->
+<div id="toast"
+  style="position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(20px);
+         background:rgba(10,14,20,0.92); border:1px solid rgba(255,255,255,0.14);
+         padding:10px 14px; border-radius:999px; font-size:12px; color:#f7f7f7;
+         opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+         z-index:999;">
+  Produto adicionado ✅
+</div>
+
+
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="reveal">
+    <h2 class="section-title">Contato</h2>
+    <p class="section-sub">
+      Deixe claro para seus clientes PJ como falar com a Mercês Panificadora.
+    </p>
+    <div class="contact">
+      <p><strong>Mercês Panificadora</strong></p>
+      <p>WhatsApp comercial: <strong>(00) 00000-0000</strong></p>
+      <p>E-mail: <strong>contato@mercespanificadora.com.br</strong></p>
+      <p>Atendemos empresas, eventos, coffee breaks e rotinas de escritório.</p>
+    </div>
+  </section>
+</main>
+
+<button class="fab" onclick="scrollToSection('pedido')">
+  <span>FAZER PEDIDO</span>
+</button>
+
+<script>
+  // -------- SCROLL SUAVE ----------
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // -------- REVEAL ON SCROLL ----------
+  const reveals = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add("visible");
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // -------- PRODUTOS DEMO + FOTOS ----------
+  const demoProducts = [
+    {
+      categoria: "Baguetes Artesanais",
+      nome: "Frango, Catupiry e Queijo",
+      ingredientes: "Baguete de fermentação lenta, frango desfiado, catupiry e queijo.",
+      preco: "5,00",
+      estoque: 3,
+      img: "https://images.pexels.com/photos/2147684/pexels-photo-2147684.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      categoria: "Pão de Batata Exclusivo",
+      nome: "Calabresa e Catupiry",
+      ingredientes: "Massa macia de batata, calabresa defumada e catupiry.",
+      preco: "5,00",
+      estoque: 5,
+      img: "https://images.pexels.com/photos/4109991/pexels-photo-4109991.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      categoria: "Pão de Batata Exclusivo",
+      nome: "Cheddar com Queijo",
+      ingredientes: "Pão de batata recheado com cheddar cremoso e queijo.",
+      preco: "5,00",
+      estoque: 4,
+      img: "https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      categoria: "Pastelaria Fina",
+      nome: "Pastelão de Carne Nobre",
+      ingredientes: "Carne moída selecionada, milho, temperos e catupiry.",
+      preco: "5,00",
+      estoque: 5,
+      img: "https://images.pexels.com/photos/4109930/pexels-photo-4109930.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      categoria: "Esfirras",
+      nome: "Esfirra de Frango com Catupiry",
+      ingredientes: "Massa macia, frango temperado, catupiry e mussarela.",
+      preco: "5,00",
+      estoque: 7,
+      img: "https://images.pexels.com/photos/4071475/pexels-photo-4071475.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      categoria: "Panetones",
+      nome: "Chocotone Trufado",
+      ingredientes: "Massa amanteigada com gotas de chocolate e recheio trufado.",
+      preco: "70,00",
+      estoque: 3,
+      img: "https://images.pexels.com/photos/1028705/pexels-photo-1028705.jpeg?auto=compress&cs=tinysrgb&w=800"
+    }
+  ];
+
+  // -------- ELEMENTOS ----------
+  const productGrid = document.getElementById("productGrid");
+  const form = document.getElementById("orderForm");
+  const statusDiv = document.getElementById("status");
+
+  // Carrinho UI
+  const cartListEl = document.getElementById("cartList");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const emptyCartMsg = document.getElementById("emptyCartMsg");
+  const cartBox = document.getElementById("cartBox");
+  const btnClearCart = document.getElementById("btnClearCart");
+  const btnReview = document.getElementById("btnReview");
+  const toast = document.getElementById("toast");
+
+  // -------- CARRINHO (estado) ----------
+  // itens: {nome, categoria, qtd}
+  let carrinho = [];
+
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.style.opacity = "1";
+    toast.style.transform = "translateX(-50%) translateY(0)";
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateX(-50%) translateY(20px)";
+    }, 1200);
+  }
+
+  function getTotalItens() {
+    return carrinho.reduce((acc, item) => acc + Number(item.qtd || 0), 0);
+  }
+
+  function renderCart() {
+    if (!cartListEl || !cartTotalEl || !emptyCartMsg || !cartBox) return;
+
+    cartListEl.innerHTML = "";
+
+    if (carrinho.length === 0) {
+      emptyCartMsg.style.display = "block";
+      cartBox.style.display = "none";
+      cartTotalEl.textContent = "0";
+      return;
+    }
+
+    emptyCartMsg.style.display = "none";
+    cartBox.style.display = "block";
+    cartTotalEl.textContent = String(getTotalItens());
+
+    carrinho.forEach((item, idx) => {
+      const li = document.createElement("li");
+      li.style.display = "flex";
+      li.style.alignItems = "center";
+      li.style.justifyContent = "space-between";
+      li.style.gap = "10px";
+      li.style.padding = "10px 10px";
+      li.style.borderRadius = "14px";
+      li.style.border = "1px solid rgba(255,255,255,0.10)";
+      li.style.background = "rgba(5,7,11,0.85)";
+
+      li.innerHTML = `
+        <div style="min-width:0;">
+          <div style="font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:#f4c96b;">
+            ${item.categoria}
+          </div>
+          <div style="font-size:12px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            ${item.nome}
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" data-action="dec" data-index="${idx}"
+            style="width:30px; height:30px; border-radius:999px; border:1px solid rgba(255,255,255,0.2);
+                   background:transparent; color:#fff; cursor:pointer;">−</button>
+
+          <input type="number" min="1" value="${item.qtd}" data-action="set" data-index="${idx}"
+            style="width:56px; text-align:center; border-radius:999px;
+                   border:1px solid rgba(255,255,255,0.18); background:rgba(4,6,10,0.9); color:#fff; padding:6px;" />
+
+          <button type="button" data-action="inc" data-index="${idx}"
+            style="width:30px; height:30px; border-radius:999px; border:none;
+                   background:linear-gradient(135deg,#f4c96b,#b77715); color:#1a1204; cursor:pointer;">+</button>
+
+          <button type="button" data-action="remove" data-index="${idx}"
+            style="margin-left:4px; border:none; background:transparent; color:#ff9b9b; cursor:pointer; font-size:12px;">
+            Remover
+          </button>
+        </div>
+      `;
+
+      cartListEl.appendChild(li);
+    });
+  }
+
+  function addToCart(produto, qtd) {
+    qtd = Math.max(1, Number(qtd) || 1);
+
+    const existente = carrinho.find(p => p.nome === produto.nome);
+    if (existente) {
+      existente.qtd += qtd;
+      showToast(`+${qtd} em ${produto.nome}`);
+    } else {
+      carrinho.push({ categoria: produto.categoria, nome: produto.nome, qtd });
+      showToast(`Adicionado: ${produto.nome}`);
+    }
+
+    renderCart();
+  }
+
+  function clearCart() {
+    carrinho = [];
+    renderCart();
+    showToast("Carrinho limpo");
+  }
+
+  // -------- RENDERIZA PRODUTOS ----------
+  demoProducts.forEach((p, index) => {
+    const card = document.createElement("article");
+    card.className = "product-card";
+
+    card.innerHTML = `
+      <div class="product-image">
+        <img src="${p.img}" alt="${p.nome}" />
+        <div class="chip">${p.categoria}</div>
+      </div>
+      <div class="product-header">
+        <div class="product-name">${p.nome}</div>
+        <div class="product-price">R$ ${p.preco}</div>
+      </div>
+      <div class="product-ingredients">${p.ingredientes}</div>
+      <div class="product-stock">Estoque aproximado: ${p.estoque} unid.</div>
+      <div class="product-footer">
+        <input type="number" min="1" value="1" class="qty-input" data-product-index="${index}" />
+        <button class="btn-add" type="button" data-product-index="${index}">Adicionar ao pedido</button>
+      </div>
+    `;
+    productGrid.appendChild(card);
+  });
+
+  // -------- CLICK NOS PRODUTOS -> ADD CARRINHO ----------
+  productGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-add");
+    if (!btn) return;
+
+    const idx = Number(btn.getAttribute("data-product-index"));
+    const produto = demoProducts[idx];
+
+    const qtyInput = productGrid.querySelector(`.qty-input[data-product-index="${idx}"]`);
+    const qtd = qtyInput ? qtyInput.value : 1;
+
+    addToCart(produto, qtd);
+    scrollToSection("pedido");
+  });
+
+  // -------- AÇÕES DENTRO DO CARRINHO ( + / - / remover / editar ) ----------
+  cartListEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+
+    const action = btn.getAttribute("data-action");
+    const idx = Number(btn.getAttribute("data-index"));
+    const item = carrinho[idx];
+    if (!item) return;
+
+    if (action === "inc") item.qtd += 1;
+    if (action === "dec") item.qtd = Math.max(1, item.qtd - 1);
+    if (action === "remove") carrinho.splice(idx, 1);
+
+    renderCart();
+  });
+
+  cartListEl.addEventListener("change", (e) => {
+    const input = e.target.closest('input[data-action="set"]');
+    if (!input) return;
+
+    const idx = Number(input.getAttribute("data-index"));
+    const item = carrinho[idx];
+    if (!item) return;
+
+    item.qtd = Math.max(1, Number(input.value) || 1);
+    renderCart();
+  });
+
+  // -------- BOTÕES DO CARRINHO ----------
+  btnClearCart.addEventListener("click", () => clearCart());
+  btnReview.addEventListener("click", () => scrollToSection("pedido"));
+
+  // inicia carrinho
+  renderCart();
+
+  // -------- ENVIO DO PEDIDO (manda carrinho) ----------
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    if (carrinho.length === 0) {
+      statusDiv.textContent = "Adicione pelo menos um produto ao carrinho.";
+      statusDiv.className = "status-message status-error";
+      return;
+    }
+
+    statusDiv.textContent = "Enviando pedido...";
+    statusDiv.className = "status-message";
+
+    const payload = {
+      nome: form.nome.value,
+      celular: form.celular.value,
+      cidade: form.cidade.value,
+      endereco: form.endereco.value,
+      itens: carrinho,
+      tipo: form.tipo.value,
+      diaEntrega: form.diaEntrega.value,
+      horaEntrega: form.horaEntrega.value,
+      pagamento: form.pagamento.value,
+      frete: form.frete.value || "",
+      observacao: form.observacao.value || ""
+    };
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      statusDiv.textContent = "Pedido enviado! ✅";
+      statusDiv.className = "status-message status-ok";
+
+      form.reset();
+      clearCart();
+    } catch (err) {
+      console.error(err);
+      statusDiv.textContent = "Erro ao enviar pedido. Tente novamente.";
+      statusDiv.className = "status-message status-error";
+    }
+  });
+</script>
