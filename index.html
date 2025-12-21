@@ -75,6 +75,7 @@
       border: none; cursor: pointer;
       box-shadow: 0 12px 28px rgba(240,139,45,0.35);
       transition: transform .15s ease;
+      white-space: nowrap;
     }
     .cart-button:active { transform: translateY(1px) scale(.99); }
     .badge { min-width: 22px; height: 22px; border-radius: 50%; background: #1c0f05; color: #f9d37f; display: grid; place-items: center; font-size: 12px; font-weight: 800; }
@@ -125,6 +126,26 @@
     .btn-secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.08); }
     .btn:active { transform: translateY(1px) scale(.99); }
 
+    .catalog-toolbar {
+      display: grid; gap: 12px; margin-bottom: 16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 860px) {
+      .catalog-toolbar { grid-template-columns: 2fr 1fr; align-items: center; }
+    }
+    .search-input {
+      padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04); color: var(--text);
+    }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .chip {
+      border-radius: 999px; padding: 8px 14px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08); color: var(--muted); cursor: pointer;
+      font-size: 13px; font-weight: 700;
+    }
+    .chip.active { background: linear-gradient(135deg, #f9d37f, #f08b2d); color: #1b0f05; border-color: transparent; }
+    .filter-panel { display: grid; gap: 8px; }
+
     .product-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
     .card {
       background: var(--card);
@@ -132,27 +153,33 @@
       border-radius: var(--radius);
       padding: 14px;
       box-shadow: var(--shadow);
+      display: grid; gap: 10px;
     }
-    .product-img { height: 150px; border-radius: 14px; background: linear-gradient(135deg, rgba(249,211,127,0.18), rgba(240,139,45,0.18)); display: grid; place-items: center; margin-bottom: 12px; position: relative; overflow: hidden; }
-    .product-img::after { content:"Mercês"; position: absolute; inset: 0; display: grid; place-items: center; font-family: 'Playfair Display', serif; font-size: 32px; letter-spacing: 0.12em; color: rgba(26,15,7,0.14); font-weight: 700; }
+    .product-img {
+      height: 160px; border-radius: 14px; overflow: hidden; position: relative;
+      background: linear-gradient(135deg, rgba(249,211,127,0.18), rgba(240,139,45,0.18));
+    }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-img::after {
+      content:"Mercês"; position: absolute; inset: 0; display: grid; place-items: center;
+      font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 0.12em; color: rgba(26,15,7,0.18); font-weight: 700;
+    }
     .pill { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.4); color: #f9d37f; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
     .product-header { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
     .product-name { font-weight: 800; font-size: 17px; }
     .product-price { color: var(--accent); font-weight: 800; }
-    .muted { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 6px 0; }
+    .muted { color: var(--muted); font-size: 14px; line-height: 1.5; }
     .stock { font-size: 13px; color: #92f7be; }
-    .card-actions { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
-    .qty-input { width: 64px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: var(--text); }
+    .card-actions { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
 
     .panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); }
     .cart-empty { color: var(--muted); padding: 14px; text-align: center; }
     .cart-item { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 12px; border-radius: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.04); margin-bottom: 10px; }
     .cart-item strong { display: block; font-size: 15px; }
     .cart-meta { color: var(--muted); font-size: 13px; }
-    .cart-controls { display: flex; align-items: center; gap: 8px; }
+    .cart-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
     .cart-controls button { padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: var(--text); cursor: pointer; }
     .cart-controls button.danger { border-color: rgba(255,107,107,0.28); color: #ffaeae; }
-    .cart-footer { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; margin-top: 10px; }
     .total { font-weight: 800; font-size: 18px; }
 
     form { display: grid; gap: 12px; }
@@ -168,10 +195,30 @@
     .status { padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); display: none; }
     .status.ok { display: block; border-color: rgba(57,217,138,0.34); color: #b5ffd8; }
     .status.err { display: block; border-color: rgba(255,107,107,0.34); color: #ffc2c2; }
+
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(0,0,0,0.8); color: #fff; padding: 12px 16px; border-radius: 12px; opacity: 0; pointer-events: none; transition: .25s ease; box-shadow: 0 12px 26px rgba(0,0,0,0.4); z-index: 20; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .product-modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center; padding: 16px; z-index: 40;
+    }
+    .product-modal-overlay.open { display: flex; }
+    .product-modal {
+      width: min(640px, 100%); max-height: 90vh; overflow: auto;
+      background: rgba(18,14,9,0.94); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: grid; gap: 12px;
+    }
+    .modal-img { height: 240px; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,0.04); }
+    .modal-img img { width: 100%; height: 100%; object-fit: cover; }
+    .type-toggle { display: flex; gap: 8px; flex-wrap: wrap; }
+    .type-toggle button { border-radius: 999px; padding: 8px 14px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: var(--muted); cursor: pointer; font-weight: 700; }
+    .type-toggle button.active { background: linear-gradient(135deg, #f9d37f, #f08b2d); color: #1b0f05; border-color: transparent; }
+    .qty-selector { display: flex; gap: 8px; align-items: center; }
+    .qty-selector button { padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: var(--text); cursor: pointer; }
   </style>
 </head>
+
 <body>
   <header>
     <div class="topbar">
@@ -188,7 +235,7 @@
         <a href="#carrinho" class="nav-link">Carrinho</a>
         <a href="#pedido" class="nav-link">Pedido</a>
       </nav>
-      <button class="cart-button" id="goCart">
+      <button class="cart-button" id="goCart" type="button">
         🛒 Carrinho
         <span class="badge" id="cartBadge">0</span>
       </button>
@@ -202,8 +249,8 @@
         <h1 class="hero-title">Sabor de tradição com <span class="hero-highlight">acabamento premium</span>.</h1>
         <p class="hero-text">Experiência artesanal em pães, doces e salgados com logística para eventos e empresas. Peça online, acompanhe o carrinho e combine entrega com nossa equipe.</p>
         <div class="hero-actions">
-          <button class="btn btn-primary" data-go="#produtos">Ver cardápio</button>
-          <button class="btn btn-secondary" data-go="#pedido">Fazer pedido</button>
+          <button class="btn btn-primary" data-go="#produtos" type="button">Ver cardápio</button>
+          <button class="btn btn-secondary" data-go="#pedido" type="button">Fazer pedido</button>
         </div>
       </div>
       <div class="card" style="text-align:center; display:grid; place-items:center; gap:12px;">
@@ -214,7 +261,21 @@
 
     <section id="produtos">
       <h2 class="section-title">Produtos</h2>
-      <p class="section-sub">Seleção curada com opções assadas e congeladas para sua rotina e eventos.</p>
+      <p class="section-sub">Catálogo em tempo real carregado direto da nossa planilha. Filtre por categoria, subcategoria e pesquise ingredientes.</p>
+
+      <div class="catalog-toolbar">
+        <input class="search-input" id="searchInput" type="search" placeholder="Buscar por nome ou ingredientes" />
+        <div class="filter-panel">
+          <label for="subCategorySelect" style="font-size:13px; color:var(--muted);">Subcategoria</label>
+          <select id="subCategorySelect">
+            <option value="">Todas as subcategorias</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chip-row" id="categoryChips"></div>
+      <div class="status" id="productsStatus"></div>
+
       <div class="product-grid" id="productGrid"></div>
     </section>
 
@@ -242,12 +303,6 @@
           </label>
           <label>Endereço completo
             <input type="text" name="endereco" required placeholder="Rua, número, bairro, referência" />
-          </label>
-          <label>Tipo (Assado/Congelado)
-            <select name="tipo" required>
-              <option value="Assado">Assado</option>
-              <option value="Congelado">Congelado</option>
-            </select>
           </label>
           <label>Data da entrega
             <input type="date" name="dataEntrega" required />
@@ -283,15 +338,47 @@
           <div style="font-weight:800;">Seu carrinho</div>
           <small style="color:var(--muted);">Revise antes de enviar o pedido</small>
         </div>
-        <button class="drawer-close" id="btnCloseCart">✕</button>
+        <button class="drawer-close" id="btnCloseCart" type="button">✕</button>
       </div>
       <div class="drawer-body" id="cartList"></div>
       <div class="drawer-actions">
         <div class="total" id="cartTotal">Total: R$ 0,00</div>
         <div style="display:flex; gap:8px;">
-          <button class="btn btn-secondary" id="btnClear">Limpar carrinho</button>
-          <button class="btn btn-primary" data-go="#pedido" id="btnCheckout">Fazer pedido</button>
+          <button class="btn btn-secondary" id="btnClear" type="button">Limpar carrinho</button>
+          <button class="btn btn-primary" data-go="#pedido" id="btnCheckout" type="button">Fazer pedido</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-modal-overlay" id="productModalOverlay">
+    <div class="product-modal" role="dialog" aria-label="Detalhe do produto">
+      <div class="drawer-head">
+        <div>
+          <div style="font-weight:800;" id="modalTitle">Detalhe do produto</div>
+          <small style="color:var(--muted);" id="modalSubtitle"></small>
+        </div>
+        <button class="drawer-close" id="btnCloseModal" type="button">✕</button>
+      </div>
+      <div class="modal-img" id="modalImage"></div>
+      <div class="muted" id="modalDescription"></div>
+      <div class="muted" id="modalIngredients"></div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div class="product-price" id="modalPrice"></div>
+        <div class="stock" id="modalStock"></div>
+      </div>
+      <div class="muted" id="modalEncomenda"></div>
+      <div>
+        <div style="font-weight:700; margin-bottom:8px;">Tipo disponível</div>
+        <div class="type-toggle" id="modalTypeToggle"></div>
+      </div>
+      <div style="display:flex; justify-content: space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div class="qty-selector">
+          <button type="button" id="modalQtyDec">-</button>
+          <span id="modalQty">1</span>
+          <button type="button" id="modalQtyInc">+</button>
+        </div>
+        <button class="btn btn-primary" id="modalAdd" type="button">Adicionar ao carrinho</button>
       </div>
     </div>
   </div>
@@ -306,20 +393,43 @@
     const cartOverlay = document.getElementById('cartOverlay');
     const btnCloseCart = document.getElementById('btnCloseCart');
     const statusBox = document.getElementById('statusBox');
+    const productsStatus = document.getElementById('productsStatus');
     const toast = document.getElementById('toast');
+    const categoryChips = document.getElementById('categoryChips');
+    const searchInput = document.getElementById('searchInput');
+    const subCategorySelect = document.getElementById('subCategorySelect');
+
+    const modalOverlay = document.getElementById('productModalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalSubtitle = document.getElementById('modalSubtitle');
+    const modalImage = document.getElementById('modalImage');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalIngredients = document.getElementById('modalIngredients');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalStock = document.getElementById('modalStock');
+    const modalEncomenda = document.getElementById('modalEncomenda');
+    const modalTypeToggle = document.getElementById('modalTypeToggle');
+    const modalQty = document.getElementById('modalQty');
+    const modalQtyDec = document.getElementById('modalQtyDec');
+    const modalQtyInc = document.getElementById('modalQtyInc');
+    const modalAdd = document.getElementById('modalAdd');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+
     const STORAGE_KEY = 'mp-cart';
+
+    // Mesmo endpoint do Apps Script: GET = lista produtos, POST = salva pedido
+    const PRODUCTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec';
+    const ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec';
+
     const cart = [];
+    let allProducts = [];
+    let selectedCategory = 'Todos';
+    let selectedSubcategory = '';
+    let activeProduct = null;
+    let activeType = '';
+    let activeQty = 1;
 
-    const products = [
-      { categoria:'Pães Especiais', nome:'Pão de Levain', ingredientes:'Fermentação natural, farinha francesa, crosta crocante', preco: 18.9, estoque: 30 },
-      { categoria:'Salgados Gourmet', nome:'Croissant Presunto & Brie', ingredientes:'Manteiga premium, presunto royal, queijo brie cremoso', preco: 14.5, estoque: 40 },
-      { categoria:'Doces', nome:'Bolo Red Velvet', ingredientes:'Cacau importado, cream cheese artesanal', preco: 79.9, estoque: 12 },
-      { categoria:'Cafeteria', nome:'Focaccia do Chef', ingredientes:'Azeite italiano, sal de parma, ervas frescas', preco: 24.0, estoque: 18 },
-      { categoria:'Congelados', nome:'Pão de Queijo Mineiro', ingredientes:'Queijo canastra, polvilho artesanal', preco: 42.0, estoque: 50 },
-      { categoria:'Eventos', nome:'Mini Sanduíches Box', ingredientes:'Mix de pães, frios nobres, maionese da casa', preco: 129.0, estoque: 10 }
-    ];
-
-    const formatMoney = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const formatMoney = (v) => (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     const persistCart = () => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
@@ -337,27 +447,6 @@
       }
     };
 
-    const renderProducts = () => {
-      productGrid.innerHTML = '';
-      products.forEach((p, i) => {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="product-img"><span class="pill">${p.categoria}</span></div>
-          <div class="product-header">
-            <div class="product-name">${p.nome}</div>
-            <div class="product-price">${formatMoney(p.preco)}</div>
-          </div>
-          <div class="muted">${p.ingredientes}</div>
-          <div class="stock">Estoque: ${p.estoque} unid.</div>
-          <div class="card-actions">
-            <input type="number" class="qty-input" min="1" value="1" data-idx="${i}" aria-label="Quantidade">
-            <button class="btn btn-secondary add-btn" data-idx="${i}">Adicionar</button>
-          </div>`;
-        productGrid.appendChild(card);
-      });
-    };
-
     const showToast = (text) => {
       toast.textContent = text;
       toast.classList.add('show');
@@ -365,70 +454,318 @@
     };
 
     const updateBadge = () => {
-      const total = cart.reduce((sum, item) => sum + item.qtd, 0);
+      const total = cart.reduce((sum, item) => sum + (Number(item.qtd) || 0), 0);
       cartBadge.textContent = total;
     };
 
     const renderCart = () => {
       updateBadge();
+
       if (!cart.length) {
         cartList.innerHTML = '<div class="cart-empty">Carrinho vazio</div>';
         cartTotal.textContent = 'Total: R$ 0,00';
         persistCart();
         return;
       }
+
       cartList.innerHTML = '';
       let total = 0;
+
       cart.forEach((item, index) => {
-        total += item.preco * item.qtd;
+        const preco = Number(item.preco) || 0;
+        const qtd = Number(item.qtd) || 1;
+        total += preco * qtd;
+
         const div = document.createElement('div');
         div.className = 'cart-item';
         div.innerHTML = `
           <div>
             <strong>${item.nome}</strong>
-            <div class="cart-meta">${item.categoria} · ${item.qtd} un · ${formatMoney(item.preco)}</div>
+            <div class="cart-meta">${item.categoria} · ${item.subcategoria || 'Sem subcategoria'} · <b>${item.tipo}</b> · ${qtd} un · ${formatMoney(preco)}</div>
           </div>
           <div class="cart-controls">
-            <button data-action="dec" data-index="${index}">-</button>
-            <span>${item.qtd}</span>
-            <button data-action="inc" data-index="${index}">+</button>
-            <button data-action="remove" data-index="${index}" class="danger">remover</button>
+            <button type="button" data-action="dec" data-index="${index}">-</button>
+            <span>${qtd}</span>
+            <button type="button" data-action="inc" data-index="${index}">+</button>
+            <button type="button" data-action="remove" data-index="${index}" class="danger">remover</button>
           </div>`;
         cartList.appendChild(div);
       });
+
       cartTotal.textContent = `Total: ${formatMoney(total)}`;
       persistCart();
     };
 
-    const openCart = () => {
-      cartOverlay.classList.add('open');
+    const openCart = () => cartOverlay.classList.add('open');
+    const closeCart = () => cartOverlay.classList.remove('open');
+
+    const openModal = () => modalOverlay.classList.add('open');
+    const closeModal = () => {
+      modalOverlay.classList.remove('open');
+      activeProduct = null;
+      activeType = '';
+      activeQty = 1;
+      modalQty.textContent = '1';
     };
 
-    const closeCart = () => {
-      cartOverlay.classList.remove('open');
-    };
-
-    const addToCart = (product, qtd) => {
-      const exists = cart.find(i => i.nome === product.nome);
+    const addToCart = (product, qtd, tipo) => {
+      const key = `${product.id}-${tipo}`;
+      const exists = cart.find(i => i.key === key);
       if (exists) {
-        exists.qtd += qtd;
+        exists.qtd = (Number(exists.qtd) || 0) + qtd;
       } else {
-        cart.push({ ...product, qtd });
+        cart.push({
+          key,
+          id: product.id,
+          categoria: product.categoria,
+          subcategoria: product.subcategoria,
+          nome: product.nome,
+          ingredientes: product.ingredientes,
+          preco: product.preco,
+          tipo,
+          qtd
+        });
       }
       renderCart();
       showToast('Adicionado ao carrinho');
+      openCart();
     };
 
+    const renderCategories = () => {
+      const categories = Array.from(new Set(allProducts.map(p => p.categoria)))
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b));
+
+      categoryChips.innerHTML = '';
+
+      const allChip = document.createElement('button');
+      allChip.type = 'button';
+      allChip.className = `chip ${selectedCategory === 'Todos' ? 'active' : ''}`;
+      allChip.textContent = 'Todos';
+      allChip.addEventListener('click', () => {
+        selectedCategory = 'Todos';
+        selectedSubcategory = '';
+        renderCategories();
+        renderSubcategories();
+        renderProducts();
+      });
+      categoryChips.appendChild(allChip);
+
+      categories.forEach(cat => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = `chip ${selectedCategory === cat ? 'active' : ''}`;
+        chip.textContent = cat;
+        chip.addEventListener('click', () => {
+          selectedCategory = cat;
+          selectedSubcategory = '';
+          renderCategories();
+          renderSubcategories();
+          renderProducts();
+        });
+        categoryChips.appendChild(chip);
+      });
+    };
+
+    const renderSubcategories = () => {
+      const base = selectedCategory === 'Todos'
+        ? allProducts
+        : allProducts.filter(p => p.categoria === selectedCategory);
+
+      const subcats = Array.from(new Set(base.map(p => p.subcategoria).filter(Boolean)))
+        .sort((a, b) => a.localeCompare(b));
+
+      subCategorySelect.innerHTML = '<option value="">Todas as subcategorias</option>';
+      subcats.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub;
+        opt.textContent = sub;
+        subCategorySelect.appendChild(opt);
+      });
+
+      subCategorySelect.value = selectedSubcategory;
+    };
+
+    const filterProducts = () => {
+      const term = searchInput.value.trim().toLowerCase();
+      let list = [...allProducts];
+
+      if (selectedCategory !== 'Todos') list = list.filter(p => p.categoria === selectedCategory);
+      if (selectedSubcategory) list = list.filter(p => p.subcategoria === selectedSubcategory);
+
+      if (term) {
+        list = list.filter(p =>
+          (p.nome || '').toLowerCase().includes(term) ||
+          (p.ingredientes || '').toLowerCase().includes(term)
+        );
+      }
+
+      return list.sort((a, b) => {
+        const cat = (a.categoria || '').localeCompare(b.categoria || '');
+        if (cat !== 0) return cat;
+        const sub = (a.subcategoria || '').localeCompare(b.subcategoria || '');
+        if (sub !== 0) return sub;
+        return (a.nome || '').localeCompare(b.nome || '');
+      });
+    };
+
+    const renderProducts = () => {
+      const list = filterProducts();
+      productGrid.innerHTML = '';
+
+      if (!list.length) {
+        productGrid.innerHTML = '<div class="panel" style="text-align:center; color:var(--muted);">Nenhum produto encontrado com os filtros atuais.</div>';
+        return;
+      }
+
+      list.forEach((p) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="product-img">
+            <span class="pill">${p.categoria}</span>
+            ${p.imagem_url ? `<img src="${p.imagem_url}" alt="${p.nome}">` : ''}
+          </div>
+          <div class="product-header">
+            <div class="product-name">${p.nome}</div>
+            <div class="product-price">${formatMoney(p.preco)}</div>
+          </div>
+          <div class="muted">${p.descricao_curta || 'Descrição indisponível no momento.'}</div>
+          <div class="muted">${p.ingredientes || 'Ingredientes sob consulta.'}</div>
+          <div class="stock">Estoque: ${p.estoque_pronta_entrega} unid. · <b>${p.tipo_disponivel}</b></div>
+          <div class="card-actions">
+            <span class="muted">${p.subcategoria || 'Sem subcategoria'}</span>
+            <button class="btn btn-secondary" type="button" data-open="${p.id}">Ver detalhes</button>
+          </div>`;
+        productGrid.appendChild(card);
+      });
+    };
+
+    const renderModal = (product) => {
+      activeProduct = product;
+      activeQty = 1;
+      modalQty.textContent = '1';
+
+      modalTitle.textContent = product.nome;
+      modalSubtitle.textContent = `${product.categoria}${product.subcategoria ? ' · ' + product.subcategoria : ''}`;
+      modalImage.innerHTML = product.imagem_url ? `<img src="${product.imagem_url}" alt="${product.nome}">` : '';
+      modalDescription.textContent = product.descricao_curta || 'Descrição indisponível.';
+      modalIngredients.textContent = `Ingredientes: ${product.ingredientes || 'Sob consulta.'}`;
+      modalPrice.textContent = formatMoney(product.preco);
+      modalStock.textContent = `Estoque: ${product.estoque_pronta_entrega} unid.`;
+      modalEncomenda.textContent = product.faz_encomenda === 'SIM' ? 'Faz encomenda: sim' : 'Faz encomenda: não';
+
+      modalTypeToggle.innerHTML = '';
+      const normalizedType = (product.tipo_disponivel || 'ASSADO').toUpperCase();
+      const types = normalizedType === 'AMBOS'
+        ? ['Assado', 'Congelado']
+        : [normalizedType === 'CONGELADO' ? 'Congelado' : 'Assado'];
+
+      activeType = types[0];
+
+      types.forEach(type => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = type;
+        btn.className = type === activeType ? 'active' : '';
+        btn.addEventListener('click', () => {
+          activeType = type;
+          modalTypeToggle.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+        modalTypeToggle.appendChild(btn);
+      });
+    };
+
+    const normalizeProduct = (row) => {
+      const price = Number(String(row.preco || '0').replace(',', '.')) || 0;
+      return {
+        id: String(row.id || row.ID || '').trim(),
+        categoria: String(row.categoria || '').trim(),
+        subcategoria: String(row.subcategoria || '').trim(),
+        nome: String(row.nome || '').trim(),
+        descricao_curta: String(row.descricao_curta || '').trim(),
+        ingredientes: String(row.ingredientes || '').trim(),
+        preco: price,
+        estoque_pronta_entrega: Number(row.estoque_pronta_entrega || 0) || 0,
+        faz_encomenda: String(row.faz_encomenda || 'NAO').toUpperCase(),
+        tipo_disponivel: String(row.tipo_disponivel || 'ASSADO').toUpperCase(),
+        imagem_url: String(row.imagem_url || '').trim(),
+        ativo: String(row.ativo || '').toUpperCase()
+      };
+    };
+
+    const loadProducts = async () => {
+      productsStatus.className = 'status';
+      productsStatus.style.display = 'block';
+      productsStatus.textContent = 'Carregando produtos...';
+
+      try {
+        const response = await fetch(PRODUCTS_ENDPOINT, { method: 'GET' });
+        if (!response.ok) throw new Error('Erro ao buscar produtos');
+        const data = await response.json();
+
+        const list = Array.isArray(data) ? data : (data.produtos || data.data || []);
+        const normalized = list.map(normalizeProduct).filter(p => p.id && p.nome && p.categoria);
+
+        allProducts = normalized.filter(p => p.ativo === 'SIM');
+
+        if (!allProducts.length) {
+          productsStatus.textContent = 'Nenhum produto ativo encontrado.';
+          productsStatus.classList.add('err');
+          return;
+        }
+
+        productsStatus.style.display = 'none';
+        renderCategories();
+        renderSubcategories();
+        renderProducts();
+      } catch (error) {
+        productsStatus.textContent = 'Não foi possível carregar os produtos agora.';
+        productsStatus.classList.add('err');
+      }
+    };
+
+    // Abrir modal pelos cards
     productGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('.add-btn');
+      const btn = e.target.closest('button[data-open]');
       if (!btn) return;
-      const idx = Number(btn.dataset.idx);
-      const qtyInput = productGrid.querySelector(`.qty-input[data-idx="${idx}"]`);
-      const qtd = Math.max(1, Number(qtyInput?.value) || 1);
-      addToCart(products[idx], qtd);
-      openCart();
+      const id = btn.dataset.open;
+      const product = allProducts.find(p => p.id === id);
+      if (!product) return;
+      renderModal(product);
+      openModal();
     });
 
+    // filtros
+    searchInput.addEventListener('input', renderProducts);
+    subCategorySelect.addEventListener('change', (e) => {
+      selectedSubcategory = e.target.value;
+      renderProducts();
+    });
+
+    // modal
+    modalQtyDec.addEventListener('click', () => {
+      activeQty = Math.max(1, activeQty - 1);
+      modalQty.textContent = String(activeQty);
+    });
+    modalQtyInc.addEventListener('click', () => {
+      activeQty += 1;
+      modalQty.textContent = String(activeQty);
+    });
+    modalAdd.addEventListener('click', () => {
+      if (!activeProduct) return;
+      if (!activeType) {
+        showToast('Selecione o tipo disponível.');
+        return;
+      }
+      addToCart(activeProduct, activeQty, activeType);
+      closeModal();
+    });
+    btnCloseModal.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+
+    // carrinho controls
     cartList.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-action]');
       if (!btn) return;
@@ -436,9 +773,11 @@
       const action = btn.dataset.action;
       const item = cart[idx];
       if (!item) return;
-      if (action === 'inc') item.qtd += 1;
-      if (action === 'dec') item.qtd = Math.max(1, item.qtd - 1);
+
+      if (action === 'inc') item.qtd = (Number(item.qtd) || 1) + 1;
+      if (action === 'dec') item.qtd = Math.max(1, (Number(item.qtd) || 1) - 1);
       if (action === 'remove') cart.splice(idx, 1);
+
       renderCart();
     });
 
@@ -447,21 +786,16 @@
       renderCart();
     });
 
-    document.getElementById('goCart').addEventListener('click', () => {
-      openCart();
-    });
-
+    document.getElementById('goCart').addEventListener('click', openCart);
     btnCloseCart.addEventListener('click', closeCart);
-
-    cartOverlay.addEventListener('click', (e) => {
-      if (e.target === cartOverlay) closeCart();
-    });
+    cartOverlay.addEventListener('click', (e) => { if (e.target === cartOverlay) closeCart(); });
 
     document.getElementById('btnCheckout').addEventListener('click', () => {
       document.querySelector('#pedido').scrollIntoView({ behavior: 'smooth' });
       closeCart();
     });
 
+    // navegação
     document.querySelectorAll('[data-go]').forEach(btn => btn.addEventListener('click', () => {
       const target = btn.getAttribute('data-go');
       const el = document.querySelector(target);
@@ -479,10 +813,7 @@
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }));
 
-    restoreCart();
-    renderProducts();
-    renderCart();
-
+    // envio do pedido
     const form = document.getElementById('orderForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -504,20 +835,26 @@
           endereco: form.endereco.value.trim()
         },
         entrega: {
-          tipo: form.tipo.value,
           data: form.dataEntrega.value,
           hora: form.horaEntrega.value,
           frete: form.frete.value.trim()
         },
         pagamento: form.pagamento.value,
         observacao: form.observacao.value.trim(),
-        itens: cart.map(i => ({ categoria: i.categoria, nome: i.nome, quantidade: i.qtd, preco: i.preco }))
+        itens: cart.map(i => ({
+          categoria: i.categoria,
+          subcategoria: i.subcategoria,
+          nome: i.nome,
+          tipo: i.tipo,
+          quantidade: i.qtd,
+          preco: i.preco
+        }))
       };
 
       statusBox.textContent = 'Enviando pedido...';
 
       try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec', {
+        const response = await fetch(ORDER_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -536,6 +873,11 @@
         statusBox.classList.add('err');
       }
     });
+
+    // init
+    restoreCart();
+    renderCart();
+    loadProducts();
   </script>
 </body>
 </html>
