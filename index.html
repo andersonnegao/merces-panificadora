@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -74,6 +75,7 @@
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       color: var(--text);
+      outline: none;
     }
     .search-suggestions {
       position: absolute;
@@ -119,10 +121,16 @@
     .hero-title { font-size: clamp(28px, 6vw, 42px); line-height: 1.05; margin: 6px 0 10px; font-weight: 800; }
     .hero-highlight { color: var(--accent); }
     .hero-text { color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+
     .btn {
-      border: none; cursor: pointer; font-weight: 700; padding: 12px 16px; border-radius: 14px; transition: .2s ease; display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #f9d37f, #f08b2d); color: #1b0f05; box-shadow: 0 14px 30px rgba(240,139,45,0.32);
+      border: none; cursor: pointer; font-weight: 700; padding: 12px 16px; border-radius: 14px; transition: .2s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #f9d37f, #f08b2d);
+      color: #1b0f05;
+      box-shadow: 0 14px 30px rgba(240,139,45,0.32);
     }
+    .btn:active { transform: translateY(1px) scale(.99); }
+
     .panel {
       margin-top: 24px;
       background: rgba(255,255,255,0.03);
@@ -144,14 +152,17 @@
           <small style="color:var(--muted);">Padaria &amp; confeitaria premium</small>
         </div>
       </div>
+
       <nav>
         <a href="index.html">Home</a>
         <a href="produtos.html">Produtos</a>
       </nav>
+
       <div class="header-search">
-        <input id="headerSearch" type="search" placeholder="Buscar produtos..." />
+        <input id="headerSearch" type="search" placeholder="Buscar produtos..." autocomplete="off" />
         <div class="search-suggestions" id="searchSuggestions"></div>
       </div>
+
       <a class="btn" href="produtos.html">Ver produtos</a>
     </div>
   </header>
@@ -159,14 +170,18 @@
   <main>
     <section class="hero">
       <div>
-        <div class="pill" style="position:static; width:fit-content; background:rgba(0,0,0,0.4); color:#f9d37f; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.04em;">Desde 1998</div>
+        <div style="position:static; width:fit-content; background:rgba(0,0,0,0.4); color:#f9d37f; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.04em;">
+          Desde 1998
+        </div>
         <h1 class="hero-title">Uma jornada deliciosa pela <span class="hero-highlight">Mercês Panificadora</span>.</h1>
         <p class="hero-text">Descubra categorias, subcategorias e produtos detalhados direto da nossa planilha. Use a busca global para encontrar rapidamente seus favoritos.</p>
         <a class="btn" href="produtos.html">Explorar catálogo</a>
       </div>
     </section>
 
-    <div class="panel">Sugestão: digite no campo de busca para ver sugestões instantâneas e abrir o detalhe do produto.</div>
+    <div class="panel">
+      Sugestão: digite no campo de busca para ver sugestões instantâneas e abrir o detalhe do produto.
+    </div>
   </main>
 
   <script>
@@ -185,7 +200,7 @@
         nome: String(row.nome || '').trim(),
         descricao_curta: String(row.descricao_curta || '').trim(),
         ingredientes: String(row.ingredientes || '').trim(),
-        palavra_chave: String(row.palavra_chave || '').trim(),
+        palavra_chave: String(row.palavra_chave || row.palavras_chave || '').trim(),
         preco: price,
         estoque_pronta_entrega: Number(row.estoque_pronta_entrega || 0) || 0,
         faz_encomenda: String(row.faz_encomenda || 'NAO').toUpperCase(),
@@ -198,12 +213,24 @@
     const loadProducts = async () => {
       try {
         const response = await fetch(PRODUCTS_ENDPOINT, { method: 'GET' });
+        if (!response.ok) throw new Error(`Status ${response.status}`);
+
         const text = await response.text();
-        const data = JSON.parse(text);
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error(`Resposta não é JSON: ${text.slice(0, 120)}...`);
+        }
+
         if (data && data.error) throw new Error(data.error);
+
         const list = Array.isArray(data) ? data : (data.produtos || data.data || []);
         if (!Array.isArray(list)) throw new Error('Formato inválido de produtos');
-        allProducts = list.map(normalizeProduct).filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
+
+        allProducts = list
+          .map(normalizeProduct)
+          .filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
       } catch (error) {
         console.error('[Busca] Falha ao carregar produtos:', error);
       }
@@ -211,11 +238,13 @@
 
     const searchProducts = (term) => {
       const value = term.toLowerCase();
-      return allProducts.filter(p =>
-        p.nome.toLowerCase().includes(value) ||
-        p.ingredientes.toLowerCase().includes(value) ||
-        p.palavra_chave.toLowerCase().includes(value)
-      ).slice(0, 6);
+      return allProducts
+        .filter(p =>
+          (p.nome || '').toLowerCase().includes(value) ||
+          (p.ingredientes || '').toLowerCase().includes(value) ||
+          (p.palavra_chave || '').toLowerCase().includes(value)
+        )
+        .slice(0, 6);
     };
 
     const renderSuggestions = (results) => {
@@ -224,12 +253,14 @@
         searchSuggestions.innerHTML = '';
         return;
       }
+
       searchSuggestions.innerHTML = results.map(item => `
         <button type="button" data-id="${item.id}">
           <span class="suggestion-title">${item.nome}</span>
           <span class="suggestion-meta">${item.categoria} · ${item.subcategoria || 'Sem subcategoria'}</span>
         </button>
       `).join('');
+
       searchSuggestions.classList.add('open');
     };
 
@@ -259,3 +290,4 @@
   </script>
 </body>
 </html>
+
