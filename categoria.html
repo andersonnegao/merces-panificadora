@@ -1,10 +1,9 @@
-html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mercês Panificadora</title>
+  <title>Categoria - Mercês Panificadora</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -15,7 +14,6 @@ html
       --text: #f8f5ed;
       --muted: #c9c3b5;
       --accent: #f4c56d;
-      --accent-strong: #f08b2d;
       --shadow: 0 18px 45px rgba(0,0,0,0.35);
       --radius: 18px;
     }
@@ -75,7 +73,6 @@ html
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       color: var(--text);
-      outline: none;
     }
     .search-suggestions {
       position: absolute;
@@ -103,43 +100,53 @@ html
       display: grid;
       gap: 4px;
     }
-    .search-suggestions button:hover {
-      background: rgba(255,255,255,0.06);
-    }
+    .search-suggestions button:hover { background: rgba(255,255,255,0.06); }
     .suggestion-title { font-weight: 700; }
     .suggestion-meta { font-size: 12px; color: var(--muted); }
 
     main { max-width: 1200px; margin: 0 auto; padding: 18px; }
-    .hero {
-      display: grid; gap: 18px; align-items: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-    .hero-title { font-size: clamp(28px, 6vw, 42px); line-height: 1.05; margin: 6px 0 10px; font-weight: 800; }
-    .hero-highlight { color: var(--accent); }
-    .hero-text { color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    h1 { margin-top: 0; }
 
-    .btn {
-      border: none; cursor: pointer; font-weight: 700; padding: 12px 16px; border-radius: 14px; transition: .2s ease;
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #f9d37f, #f08b2d);
-      color: #1b0f05;
-      box-shadow: 0 14px 30px rgba(240,139,45,0.32);
+    .subcategory-grid {
+      display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
-    .btn:active { transform: translateY(1px) scale(.99); }
-
-    .panel {
-      margin-top: 24px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 20px;
-      padding: 16px;
+    .category-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 14px;
       box-shadow: var(--shadow);
-      color: var(--muted);
+      cursor: pointer;
+      display: grid; gap: 10px;
+      transition: transform 0.2s ease;
     }
+    .category-card:hover { transform: translateY(-3px); }
+    .category-image {
+      height: 160px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(249,211,127,0.18), rgba(240,139,45,0.18));
+      position: relative;
+      display: grid;
+      place-items: center;
+      color: rgba(26,15,7,0.5);
+      font-weight: 800;
+      font-size: 24px;
+    }
+    .category-image img { width: 100%; height: 100%; object-fit: cover; }
+    .category-count { color: var(--muted); font-size: 13px; }
+
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 14px;
+    }
+    .breadcrumb a { color: var(--accent); font-weight: 600; }
+
+    .status {
+      padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08); display: none; margin-bottom: 16px;
+    }
+    .status.err { display: block; color: #ffc2c2; border-color: rgba(255,107,107,0.34); }
+    .status button { margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -152,44 +159,44 @@ html
           <small style="color:var(--muted);">Padaria &amp; confeitaria premium</small>
         </div>
       </div>
-
       <nav>
         <a href="index.html">Home</a>
         <a href="produtos.html">Produtos</a>
       </nav>
-
       <div class="header-search">
-        <input id="headerSearch" type="search" placeholder="Buscar produtos..." autocomplete="off" />
+        <input id="headerSearch" type="search" placeholder="Buscar produtos..." />
         <div class="search-suggestions" id="searchSuggestions"></div>
       </div>
-
-      <a class="btn" href="produtos.html">Ver produtos</a>
+      <a class="btn" href="produtos.html" style="text-decoration:none; background:linear-gradient(135deg,#f9d37f,#f08b2d); color:#1b0f05; padding:10px 14px; border-radius:14px; font-weight:700;">Categorias</a>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div>
-        <div style="position:static; width:fit-content; background:rgba(0,0,0,0.4); color:#f9d37f; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.04em;">
-          Desde 1998
-        </div>
-        <h1 class="hero-title">Uma jornada deliciosa pela <span class="hero-highlight">Mercês Panificadora</span>.</h1>
-        <p class="hero-text">Descubra categorias, subcategorias e produtos detalhados direto da nossa planilha. Use a busca global para encontrar rapidamente seus favoritos.</p>
-        <a class="btn" href="produtos.html">Explorar catálogo</a>
-      </div>
-    </section>
-
-    <div class="panel">
-      Sugestão: digite no campo de busca para ver sugestões instantâneas e abrir o detalhe do produto.
-    </div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <h1 id="categoryTitle">Subcategorias</h1>
+    <p style="color:var(--muted);">Selecione uma subcategoria.</p>
+    <div class="status" id="productsStatus"></div>
+    <div class="subcategory-grid" id="subcategoryGrid"></div>
   </main>
 
   <script>
     const PRODUCTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec';
-
     const headerSearch = document.getElementById('headerSearch');
     const searchSuggestions = document.getElementById('searchSuggestions');
+    const productsStatus = document.getElementById('productsStatus');
+    const subcategoryGrid = document.getElementById('subcategoryGrid');
+    const breadcrumb = document.getElementById('breadcrumb');
+    const categoryTitle = document.getElementById('categoryTitle');
     let allProducts = [];
+
+    const params = new URLSearchParams(window.location.search);
+    const categorySlug = params.get('c');
+
+    const slugify = (text) => text
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
 
     const normalizeProduct = (row) => {
       const price = Number(String(row.preco || '0').replace(/[R$\s]/g, '').replace(',', '.')) || 0;
@@ -200,51 +207,112 @@ html
         nome: String(row.nome || '').trim(),
         descricao_curta: String(row.descricao_curta || '').trim(),
         ingredientes: String(row.ingredientes || '').trim(),
-        palavra_chave: String(row.palavra_chave || row.palavras_chave || '').trim(),
+        palavra_chave: String(row.palavra_chave || '').trim(),
         preco: price,
         estoque_pronta_entrega: Number(row.estoque_pronta_entrega || 0) || 0,
         faz_encomenda: String(row.faz_encomenda || 'NAO').toUpperCase(),
         tipo_disponivel: String(row.tipo_disponivel || 'ASSADO').toUpperCase(),
         imagem_url: String(row.imagem_url || '').trim(),
+        subcategoria_imagem_url: String(row.subcategoria_imagem_url || '').trim(),
         ativo: String(row.ativo || '').toUpperCase()
       };
     };
 
+    const showProductsError = (message, error) => {
+      console.error('[Produtos] Falha ao carregar catálogo:', error);
+      productsStatus.className = 'status err';
+      productsStatus.innerHTML = `${message}<br><button type="button" id="retryProducts">Tentar novamente</button>`;
+      const retry = document.getElementById('retryProducts');
+      if (retry) retry.addEventListener('click', loadProducts);
+    };
+
     const loadProducts = async () => {
+      productsStatus.style.display = 'block';
+      productsStatus.textContent = 'Carregando produtos...';
       try {
         const response = await fetch(PRODUCTS_ENDPOINT, { method: 'GET' });
-        if (!response.ok) throw new Error(`Status ${response.status}`);
-
         const text = await response.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          throw new Error(`Resposta não é JSON: ${text.slice(0, 120)}...`);
+        const data = JSON.parse(text);
+        if (data && data.error) {
+          showProductsError(`Erro ao carregar produtos: ${data.error}`, data.error);
+          return;
         }
-
-        if (data && data.error) throw new Error(data.error);
-
         const list = Array.isArray(data) ? data : (data.produtos || data.data || []);
         if (!Array.isArray(list)) throw new Error('Formato inválido de produtos');
-
-        allProducts = list
-          .map(normalizeProduct)
-          .filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
+        allProducts = list.map(normalizeProduct).filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
+        renderSubcategories();
+        productsStatus.style.display = 'none';
       } catch (error) {
-        console.error('[Busca] Falha ao carregar produtos:', error);
+        showProductsError('Não foi possível carregar os produtos agora.', error);
       }
+    };
+
+    const findCategoryName = () => {
+      const match = allProducts.find(p => slugify(p.categoria) === categorySlug);
+      return match ? match.categoria : '';
+    };
+
+    const groupBySubcategory = (categoryName) => {
+      const map = {};
+      allProducts.filter(p => p.categoria === categoryName).forEach(product => {
+        const key = product.subcategoria || 'Sem subcategoria';
+        if (!map[key]) {
+          map[key] = {
+            name: key,
+            count: 0,
+            image: product.subcategoria_imagem_url || ''
+          };
+        }
+        map[key].count += 1;
+        if (!map[key].image && product.subcategoria_imagem_url) {
+          map[key].image = product.subcategoria_imagem_url;
+        }
+      });
+      return Object.values(map).sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const renderSubcategories = () => {
+      if (!categorySlug) {
+        window.location.href = 'produtos.html';
+        return;
+      }
+      const categoryName = findCategoryName();
+      categoryTitle.textContent = categoryName || 'Subcategorias';
+      breadcrumb.innerHTML = `
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="produtos.html">Produtos</a>
+        <span>›</span>
+        <span>${categoryName || 'Categoria'}</span>
+      `;
+
+      const subcategories = groupBySubcategory(categoryName);
+      subcategoryGrid.innerHTML = '';
+      subcategories.forEach(sub => {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        const subSlug = slugify(sub.name);
+        card.innerHTML = `
+          <div class="category-image">
+            ${sub.image ? `<img src="${sub.image}" alt="${sub.name}">` : `<span>${sub.name.slice(0, 1)}</span>`}
+          </div>
+          <div style="font-weight:800;">${sub.name}</div>
+          <div class="category-count">${sub.count} itens</div>
+        `;
+        card.addEventListener('click', () => {
+          window.location.href = `subcategoria.html?c=${encodeURIComponent(categorySlug)}&s=${encodeURIComponent(subSlug)}`;
+        });
+        subcategoryGrid.appendChild(card);
+      });
     };
 
     const searchProducts = (term) => {
       const value = term.toLowerCase();
-      return allProducts
-        .filter(p =>
-          (p.nome || '').toLowerCase().includes(value) ||
-          (p.ingredientes || '').toLowerCase().includes(value) ||
-          (p.palavra_chave || '').toLowerCase().includes(value)
-        )
-        .slice(0, 6);
+      return allProducts.filter(p =>
+        p.nome.toLowerCase().includes(value) ||
+        p.ingredientes.toLowerCase().includes(value) ||
+        p.palavra_chave.toLowerCase().includes(value)
+      ).slice(0, 6);
     };
 
     const renderSuggestions = (results) => {
@@ -253,14 +321,12 @@ html
         searchSuggestions.innerHTML = '';
         return;
       }
-
       searchSuggestions.innerHTML = results.map(item => `
         <button type="button" data-id="${item.id}">
           <span class="suggestion-title">${item.nome}</span>
           <span class="suggestion-meta">${item.categoria} · ${item.subcategoria || 'Sem subcategoria'}</span>
         </button>
       `).join('');
-
       searchSuggestions.classList.add('open');
     };
 
@@ -290,4 +356,3 @@ html
   </script>
 </body>
 </html>
-
