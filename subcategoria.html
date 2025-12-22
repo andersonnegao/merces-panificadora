@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mercês Panificadora</title>
+  <title>Subcategoria - Mercês Panificadora</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,6 @@
       --text: #f8f5ed;
       --muted: #c9c3b5;
       --accent: #f4c56d;
-      --accent-strong: #f08b2d;
       --shadow: 0 18px 45px rgba(0,0,0,0.35);
       --radius: 18px;
     }
@@ -101,37 +100,44 @@
       display: grid;
       gap: 4px;
     }
-    .search-suggestions button:hover {
-      background: rgba(255,255,255,0.06);
-    }
+    .search-suggestions button:hover { background: rgba(255,255,255,0.06); }
     .suggestion-title { font-weight: 700; }
     .suggestion-meta { font-size: 12px; color: var(--muted); }
 
     main { max-width: 1200px; margin: 0 auto; padding: 18px; }
-    .hero {
-      display: grid; gap: 18px; align-items: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 22px;
-      padding: 22px;
+
+    .product-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius);
+      padding: 14px;
       box-shadow: var(--shadow);
+      display: grid; gap: 10px;
+      cursor: pointer;
     }
-    .hero-title { font-size: clamp(28px, 6vw, 42px); line-height: 1.05; margin: 6px 0 10px; font-weight: 800; }
-    .hero-highlight { color: var(--accent); }
-    .hero-text { color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
-    .btn {
-      border: none; cursor: pointer; font-weight: 700; padding: 12px 16px; border-radius: 14px; transition: .2s ease; display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #f9d37f, #f08b2d); color: #1b0f05; box-shadow: 0 14px 30px rgba(240,139,45,0.32);
+    .product-img {
+      height: 160px; border-radius: 14px; overflow: hidden; position: relative;
+      background: linear-gradient(135deg, rgba(249,211,127,0.18), rgba(240,139,45,0.18));
     }
-    .panel {
-      margin-top: 24px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      color: var(--muted);
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .pill { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.4); color: #f9d37f; padding: 6px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; }
+    .product-name { font-weight: 800; font-size: 17px; }
+    .product-price { color: var(--accent); font-weight: 800; }
+    .muted { color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .stock { font-size: 13px; color: #92f7be; }
+
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; margin-bottom: 14px;
     }
+    .breadcrumb a { color: var(--accent); font-weight: 600; }
+
+    .status {
+      padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08); display: none; margin-bottom: 16px;
+    }
+    .status.err { display: block; color: #ffc2c2; border-color: rgba(255,107,107,0.34); }
+    .status button { margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -152,29 +158,37 @@
         <input id="headerSearch" type="search" placeholder="Buscar produtos..." />
         <div class="search-suggestions" id="searchSuggestions"></div>
       </div>
-      <a class="btn" href="produtos.html">Ver produtos</a>
+      <a class="btn" href="produtos.html" style="text-decoration:none; background:linear-gradient(135deg,#f9d37f,#f08b2d); color:#1b0f05; padding:10px 14px; border-radius:14px; font-weight:700;">Categorias</a>
     </div>
   </header>
 
   <main>
-    <section class="hero">
-      <div>
-        <div class="pill" style="position:static; width:fit-content; background:rgba(0,0,0,0.4); color:#f9d37f; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.04em;">Desde 1998</div>
-        <h1 class="hero-title">Uma jornada deliciosa pela <span class="hero-highlight">Mercês Panificadora</span>.</h1>
-        <p class="hero-text">Descubra categorias, subcategorias e produtos detalhados direto da nossa planilha. Use a busca global para encontrar rapidamente seus favoritos.</p>
-        <a class="btn" href="produtos.html">Explorar catálogo</a>
-      </div>
-    </section>
-
-    <div class="panel">Sugestão: digite no campo de busca para ver sugestões instantâneas e abrir o detalhe do produto.</div>
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <h1 id="subcategoryTitle">Produtos</h1>
+    <p style="color:var(--muted);">Toque em um produto para ver detalhes.</p>
+    <div class="status" id="productsStatus"></div>
+    <div class="product-grid" id="productGrid"></div>
   </main>
 
   <script>
     const PRODUCTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec';
-
     const headerSearch = document.getElementById('headerSearch');
     const searchSuggestions = document.getElementById('searchSuggestions');
+    const productsStatus = document.getElementById('productsStatus');
+    const productGrid = document.getElementById('productGrid');
+    const breadcrumb = document.getElementById('breadcrumb');
+    const subcategoryTitle = document.getElementById('subcategoryTitle');
     let allProducts = [];
+
+    const params = new URLSearchParams(window.location.search);
+    const categorySlug = params.get('c');
+    const subcategorySlug = params.get('s');
+
+    const slugify = (text) => text
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
 
     const normalizeProduct = (row) => {
       const price = Number(String(row.preco || '0').replace(/[R$\s]/g, '').replace(',', '.')) || 0;
@@ -195,18 +209,94 @@
       };
     };
 
+    const showProductsError = (message, error) => {
+      console.error('[Produtos] Falha ao carregar catálogo:', error);
+      productsStatus.className = 'status err';
+      productsStatus.innerHTML = `${message}<br><button type="button" id="retryProducts">Tentar novamente</button>`;
+      const retry = document.getElementById('retryProducts');
+      if (retry) retry.addEventListener('click', loadProducts);
+    };
+
     const loadProducts = async () => {
+      productsStatus.style.display = 'block';
+      productsStatus.textContent = 'Carregando produtos...';
       try {
         const response = await fetch(PRODUCTS_ENDPOINT, { method: 'GET' });
         const text = await response.text();
         const data = JSON.parse(text);
-        if (data && data.error) throw new Error(data.error);
+        if (data && data.error) {
+          showProductsError(`Erro ao carregar produtos: ${data.error}`, data.error);
+          return;
+        }
         const list = Array.isArray(data) ? data : (data.produtos || data.data || []);
         if (!Array.isArray(list)) throw new Error('Formato inválido de produtos');
         allProducts = list.map(normalizeProduct).filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
+        renderProducts();
+        productsStatus.style.display = 'none';
       } catch (error) {
-        console.error('[Busca] Falha ao carregar produtos:', error);
+        showProductsError('Não foi possível carregar os produtos agora.', error);
       }
+    };
+
+    const findCategoryName = () => {
+      const match = allProducts.find(p => slugify(p.categoria) === categorySlug);
+      return match ? match.categoria : '';
+    };
+
+    const findSubcategoryName = () => {
+      const match = allProducts.find(p => slugify(p.subcategoria || 'Sem subcategoria') === subcategorySlug);
+      return match ? (match.subcategoria || 'Sem subcategoria') : '';
+    };
+
+    const renderProducts = () => {
+      if (!categorySlug || !subcategorySlug) {
+        window.location.href = 'produtos.html';
+        return;
+      }
+      const categoryName = findCategoryName();
+      const subcategoryName = findSubcategoryName();
+      subcategoryTitle.textContent = `${categoryName} · ${subcategoryName}`;
+      breadcrumb.innerHTML = `
+        <a href="index.html">Home</a>
+        <span>›</span>
+        <a href="produtos.html">Produtos</a>
+        <span>›</span>
+        <a href="categoria.html?c=${encodeURIComponent(categorySlug)}">${categoryName}</a>
+        <span>›</span>
+        <span>${subcategoryName}</span>
+      `;
+
+      const products = allProducts.filter(p =>
+        slugify(p.categoria) === categorySlug &&
+        slugify(p.subcategoria || 'Sem subcategoria') === subcategorySlug
+      );
+
+      productGrid.innerHTML = '';
+      if (!products.length) {
+        productGrid.innerHTML = '<p style="color:var(--muted);">Nenhum produto encontrado.</p>';
+        return;
+      }
+
+      products.forEach(product => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="product-img">
+            <span class="pill">${product.tipo_disponivel}</span>
+            ${product.imagem_url ? `<img src="${product.imagem_url}" alt="${product.nome}">` : ''}
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="product-name">${product.nome}</div>
+            <div class="product-price">${product.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+          </div>
+          <div class="muted">${product.descricao_curta || 'Descrição indisponível.'}</div>
+          <div class="stock">Estoque: ${product.estoque_pronta_entrega} unid.</div>
+        `;
+        card.addEventListener('click', () => {
+          window.location.href = `produto.html?id=${encodeURIComponent(product.id)}`;
+        });
+        productGrid.appendChild(card);
+      });
     };
 
     const searchProducts = (term) => {
