@@ -1,293 +1,226 @@
-html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mercês Panificadora</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <meta name="theme-color" content="#050505">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Mercês Panificadora | Private Collection</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0f0c07;
-      --card: rgba(255,255,255,0.04);
-      --text: #f8f5ed;
-      --muted: #c9c3b5;
-      --accent: #f4c56d;
-      --accent-strong: #f08b2d;
-      --shadow: 0 18px 45px rgba(0,0,0,0.35);
-      --radius: 18px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: radial-gradient(circle at 12% 20%, rgba(244,197,109,0.15), transparent 26%),
-                  radial-gradient(circle at 82% 4%, rgba(255,139,45,0.12), transparent 24%),
-                  var(--bg);
-      color: var(--text);
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      min-height: 100vh;
-    }
-    a { color: inherit; text-decoration: none; }
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 
-    header {
-      position: sticky;
-      top: 0; z-index: 10;
-      backdrop-filter: blur(18px);
-      background: rgba(15,12,7,0.82);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-    .topbar {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .brand {
-      display: flex; align-items: center; gap: 10px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-    .brand-mark {
-      width: 38px; height: 38px; border-radius: 12px;
-      background: linear-gradient(135deg, #f9d37f, #f08b2d);
-      display: grid; place-items: center;
-      color: #1a0f04; font-weight: 900;
-      box-shadow: 0 10px 24px rgba(240,139,45,0.28);
-    }
-    nav { display: none; align-items: center; gap: 16px; font-size: 14px; color: var(--muted); }
-    nav a { padding: 8px 10px; border-radius: 12px; transition: .2s ease; }
-    nav a:hover { color: var(--text); background: rgba(255,255,255,0.06); }
-    @media (min-width: 720px) { nav { display: flex; } }
-
-    .header-search {
-      flex: 1 1 260px;
-      max-width: 420px;
-      min-width: 180px;
-      position: relative;
-    }
-    .header-search input {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-      color: var(--text);
-      outline: none;
-    }
-    .search-suggestions {
-      position: absolute;
-      top: 110%;
-      left: 0;
-      right: 0;
-      background: rgba(18,14,9,0.96);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      display: none;
-      z-index: 20;
-      max-height: 260px;
-      overflow: auto;
-    }
-    .search-suggestions.open { display: block; }
-    .search-suggestions button {
-      width: 100%;
-      text-align: left;
-      padding: 10px 12px;
-      border: none;
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-      display: grid;
-      gap: 4px;
-    }
-    .search-suggestions button:hover {
-      background: rgba(255,255,255,0.06);
-    }
-    .suggestion-title { font-weight: 700; }
-    .suggestion-meta { font-size: 12px; color: var(--muted); }
-
-    main { max-width: 1200px; margin: 0 auto; padding: 18px; }
-    .hero {
-      display: grid; gap: 18px; align-items: center;
-      background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 22px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-    }
-    .hero-title { font-size: clamp(28px, 6vw, 42px); line-height: 1.05; margin: 6px 0 10px; font-weight: 800; }
-    .hero-highlight { color: var(--accent); }
-    .hero-text { color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
-
-    .btn {
-      border: none; cursor: pointer; font-weight: 700; padding: 12px 16px; border-radius: 14px; transition: .2s ease;
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #f9d37f, #f08b2d);
-      color: #1b0f05;
-      box-shadow: 0 14px 30px rgba(240,139,45,0.32);
-    }
-    .btn:active { transform: translateY(1px) scale(.99); }
-
-    .panel {
-      margin-top: 24px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      color: var(--muted);
-    }
-  </style>
+  <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <header>
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-mark">MP</div>
-        <div>
-          <div style="font-size:15px;">Mercês Panificadora</div>
-          <small style="color:var(--muted);">Padaria &amp; confeitaria premium</small>
-        </div>
-      </div>
 
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="produtos.html">Produtos</a>
+<body>
+
+  <header class="header">
+    <div class="topbar">
+
+      <a class="brand" href="index.html" aria-label="Mercês Panificadora - Home">
+        <div class="brand-mark">MP</div>
+        <div class="brand-info">
+          <div class="brand-title">Mercês Panificadora</div>
+          <small class="brand-subtitle">Padaria &amp; confeitaria premium</small>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Menu Principal">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#produtos" class="nav-link">Cardápio</a>
+        <a href="#pedido" class="nav-link">Checkout</a>
       </nav>
 
       <div class="header-search">
-        <input id="headerSearch" type="search" placeholder="Buscar produtos..." autocomplete="off" />
+        <input id="headerSearch" type="search" placeholder="Buscar no catálogo..." autocomplete="off" />
         <div class="search-suggestions" id="searchSuggestions"></div>
       </div>
 
-      <a class="btn" href="produtos.html">Ver produtos</a>
+      <button class="cart-button" id="goCart" type="button" aria-label="Abrir carrinho">
+        Carrinho
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div>
-        <div style="position:static; width:fit-content; background:rgba(0,0,0,0.4); color:#f9d37f; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.04em;">
-          Desde 1998
+  <main class="container">
+
+    <section id="home" class="hero">
+      <div class="hero-left">
+        <span class="hero-pill">Established 1998</span>
+
+        <h1 class="hero-title">
+          Tradição artesanal. <br>
+          <span class="hero-highlight">Logística de elite.</span>
+        </h1>
+
+        <p class="hero-text">
+          Do café da manhã residencial aos grandes eventos corporativos. 
+          Selecione sua modalidade de compra e receba produtos frescos ou congelados com precisão.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="document.getElementById('produtos').scrollIntoView()">Ver Catálogo</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('pedido').scrollIntoView()">Fazer Pedido</button>
         </div>
-        <h1 class="hero-title">Uma jornada deliciosa pela <span class="hero-highlight">Mercês Panificadora</span>.</h1>
-        <p class="hero-text">Descubra categorias, subcategorias e produtos detalhados direto da nossa planilha. Use a busca global para encontrar rapidamente seus favoritos.</p>
-        <a class="btn" href="produtos.html">Explorar catálogo</a>
+      </div>
+
+      <div class="hero-right card">
+        <div class="hero-lux">Mercês B2B</div>
+        <div class="hero-lux-sub">
+          Atendimento exclusivo para hotéis, cafés e revendedores com preços de atacado.
+        </div>
       </div>
     </section>
 
-    <div class="panel">
-      Sugestão: digite no campo de busca para ver sugestões instantâneas e abrir o detalhe do produto.
-    </div>
+    <section id="produtos" class="section">
+      <h2 class="section-title">Nossa Seleção</h2>
+      <p class="section-sub">Escolha a modalidade para visualizar os preços e condições.</p>
+
+      <div class="mode-switcher">
+        <span class="label" style="color: var(--color-gold-matte); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em;">Modalidade:</span>
+        <div class="toggle-container">
+          <button onclick="toggleMode('varejo')" class="toggle-btn active" id="btnVarejo">Residencial</button>
+          <button onclick="toggleMode('atacado')" class="toggle-btn" id="btnAtacado">Comercial (Atacado)</button>
+        </div>
+      </div>
+
+      <div class="status" id="productsStatus" aria-live="polite"></div>
+
+      <div class="product-grid" id="productGrid">
+        </div>
+    </section>
+
+    <section id="pedido" class="section">
+      <h2 class="section-title">Finalizar Solicitação</h2>
+      <p class="section-sub">
+        Preencha os dados de entrega. Enviaremos a confirmação imediatamente.
+      </p>
+
+      <form id="orderForm" class="panel form" autocomplete="on">
+        <div class="form-grid">
+
+          <div class="field field-full">
+            <span>Identificação (Nome ou Razão Social)</span>
+            <input type="text" name="nome" required placeholder="Ex: Ana Maria ou Café do Centro Ltda" />
+          </div>
+
+          <div class="field">
+            <span>WhatsApp para Contato</span>
+            <input type="tel" name="whatsapp" required placeholder="(41) 99999-0000" />
+          </div>
+
+          <div class="field">
+            <span>Cidade</span>
+            <input type="text" name="cidade" required placeholder="Curitiba" />
+          </div>
+
+          <div class="field field-full">
+            <span>Endereço Completo</span>
+            <input type="text" name="endereco" required placeholder="Rua, número, bairro e complemento" />
+          </div>
+
+          <div class="field">
+            <span>Data Preferencial</span>
+            <input type="date" name="dataEntrega" required />
+          </div>
+
+          <div class="field">
+            <span>Horário Aproximado</span>
+            <input type="time" name="horaEntrega" required />
+          </div>
+
+          <div class="field">
+            <span>Forma de Pagamento</span>
+            <select name="pagamento" required>
+              <option value="Pix">Pix (Instantâneo)</option>
+              <option value="Cartão">Cartão de Crédito/Débito (Maquininha)</option>
+              <option value="Dinheiro">Espécie</option>
+              <option value="Faturar">Faturamento (Apenas Clientes Cadastrados)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <span>Estado do Produto</span>
+            <select name="tipo" required>
+              <option value="Assado">Assado (Pronto para consumo)</option>
+              <option value="Congelado">Congelado (Para finalizar no forno)</option>
+            </select>
+          </div>
+
+          <div class="field field-full">
+            <span>Notas Adicionais</span>
+            <textarea name="observacao" placeholder="Ponto de referência, restrições alimentares ou instruções de portaria."></textarea>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Pedido ao Balcão</button>
+        <div class="status" id="statusBox" aria-live="polite"></div>
+      </form>
+    </section>
+
   </main>
 
-  <script>
-    const PRODUCTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyiWJ8VUDflilFlhHHuXR5rorP2j9JjNuoszqEqPN-sN6BjuiklyUt4_6DRD3e1QyT7/exec';
+  <div class="cart-overlay" id="cartOverlay" aria-hidden="true">
+    <div class="cart-drawer" role="dialog" aria-label="Carrinho de compras">
 
-    const headerSearch = document.getElementById('headerSearch');
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    let allProducts = [];
+      <div class="drawer-head">
+        <div>
+          <div class="drawer-title">Seu Pedido</div>
+          <small class="drawer-subtitle">Revise os itens antes da confirmação</small>
+        </div>
+        <button class="drawer-close" id="btnCloseCart" type="button" aria-label="Fechar carrinho">✕</button>
+      </div>
 
-    const normalizeProduct = (row) => {
-      const price = Number(String(row.preco || '0').replace(/[R$\s]/g, '').replace(',', '.')) || 0;
-      return {
-        id: String(row.id || row.ID || '').trim(),
-        categoria: String(row.categoria || '').trim(),
-        subcategoria: String(row.subcategoria || '').trim(),
-        nome: String(row.nome || '').trim(),
-        descricao_curta: String(row.descricao_curta || '').trim(),
-        ingredientes: String(row.ingredientes || '').trim(),
-        palavra_chave: String(row.palavra_chave || row.palavras_chave || '').trim(),
-        preco: price,
-        estoque_pronta_entrega: Number(row.estoque_pronta_entrega || 0) || 0,
-        faz_encomenda: String(row.faz_encomenda || 'NAO').toUpperCase(),
-        tipo_disponivel: String(row.tipo_disponivel || 'ASSADO').toUpperCase(),
-        imagem_url: String(row.imagem_url || '').trim(),
-        ativo: String(row.ativo || '').toUpperCase()
-      };
-    };
+      <div class="drawer-body" id="cartList">
+        </div>
 
-    const loadProducts = async () => {
-      try {
-        const response = await fetch(PRODUCTS_ENDPOINT, { method: 'GET' });
-        if (!response.ok) throw new Error(`Status ${response.status}`);
+      <div class="drawer-actions">
+        <div class="total" id="cartTotal">Total: R$ 0,00</div>
+        <div class="drawer-buttons">
+          <button class="btn btn-secondary" id="btnClear" type="button">Limpar</button>
+          <button class="btn btn-primary" id="btnCheckout" type="button" onclick="document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('pedido').scrollIntoView();">Ir para Pagamento</button>
+        </div>
+      </div>
 
-        const text = await response.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          throw new Error(`Resposta não é JSON: ${text.slice(0, 120)}...`);
-        }
+    </div>
+  </div>
 
-        if (data && data.error) throw new Error(data.error);
+  <div class="toast" id="toast" aria-live="polite">Item adicionado</div>
 
-        const list = Array.isArray(data) ? data : (data.produtos || data.data || []);
-        if (!Array.isArray(list)) throw new Error('Formato inválido de produtos');
+  <nav class="mobile-dock">
+    <a href="#home" class="dock-item active">
+      <span class="dock-icon">🏠</span>
+      <span class="dock-label">Início</span>
+    </a>
 
-        allProducts = list
-          .map(normalizeProduct)
-          .filter(p => p.ativo === 'SIM' && p.id && p.nome && p.categoria);
-      } catch (error) {
-        console.error('[Busca] Falha ao carregar produtos:', error);
-      }
-    };
+    <a href="#produtos" class="dock-item">
+      <span class="dock-icon">🥐</span>
+      <span class="dock-label">Cardápio</span>
+    </a>
 
-    const searchProducts = (term) => {
-      const value = term.toLowerCase();
-      return allProducts
-        .filter(p =>
-          (p.nome || '').toLowerCase().includes(value) ||
-          (p.ingredientes || '').toLowerCase().includes(value) ||
-          (p.palavra_chave || '').toLowerCase().includes(value)
-        )
-        .slice(0, 6);
-    };
+    <button class="dock-item dock-main" onclick="document.getElementById('goCart').click()">
+      <span class="dock-icon-main">🛒</span>
+    </button>
 
-    const renderSuggestions = (results) => {
-      if (!results.length) {
-        searchSuggestions.classList.remove('open');
-        searchSuggestions.innerHTML = '';
-        return;
-      }
+    <a href="#pedido" class="dock-item">
+      <span class="dock-icon">📝</span>
+      <span class="dock-label">Pedido</span>
+    </a>
 
-      searchSuggestions.innerHTML = results.map(item => `
-        <button type="button" data-id="${item.id}">
-          <span class="suggestion-title">${item.nome}</span>
-          <span class="suggestion-meta">${item.categoria} · ${item.subcategoria || 'Sem subcategoria'}</span>
-        </button>
-      `).join('');
+    <a href="https://wa.me/5517988054837" target="_blank" class="dock-item">
+      <span class="dock-icon">💬</span>
+      <span class="dock-label">Ajuda</span>
+    </a>
+  </nav>
 
-      searchSuggestions.classList.add('open');
-    };
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js?v=3"></script>
 
-    headerSearch.addEventListener('input', (e) => {
-      const term = e.target.value.trim();
-      if (!term) {
-        renderSuggestions([]);
-        return;
-      }
-      renderSuggestions(searchProducts(term));
-    });
-
-    searchSuggestions.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-id]');
-      if (!btn) return;
-      const id = btn.dataset.id;
-      window.location.href = `produto.html?id=${encodeURIComponent(id)}`;
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!searchSuggestions.contains(e.target) && e.target !== headerSearch) {
-        searchSuggestions.classList.remove('open');
-      }
-    });
-
-    loadProducts();
-  </script>
 </body>
 </html>
-
