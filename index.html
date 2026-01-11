@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- 🛡️ Forçar navegador a NÃO cachear e limpar legado -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
   <meta name="theme-color" content="#050505">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -87,6 +91,10 @@
           <button onclick="toggleMode('varejo')" class="toggle-btn active" id="btnVarejo">Residencial</button>
           <button onclick="toggleMode('atacado')" class="toggle-btn" id="btnAtacado">Comercial (Atacado)</button>
         </div>
+      </div>
+
+      <div class="category-scroll">
+        <div class="category-track" id="categoryList"></div>
       </div>
 
       <div class="status" id="productsStatus" aria-live="polite"></div>
@@ -220,7 +228,42 @@
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="app.js?v=3"></script>
-
+  
+  <!-- 🛡️ SCRIPT DE LIMPEZA IMEDIATA - EXECUTAR ANTES DE TUDO -->
+  <script>
+    console.log('🛡️ Iniciando limpeza de código legado...');
+    
+    // Bloquear XMLHttpRequest para Google
+    (function blockGoogleRequests() {
+      const originalOpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+        if (typeof url === 'string' && url.includes('script.google.com')) {
+          console.error('❌ BLOQUEADO: XMLHttpRequest para script.google.com');
+          throw new Error('Acesso bloqueado: Google Sheets não é mais usado. Use Supabase.');
+        }
+        return originalOpen.call(this, method, url, ...rest);
+      };
+    })();
+    
+    // Limpar localStorage
+    for (let key of Object.keys(localStorage)) {
+      if (key.toLowerCase().includes('google') || key.toLowerCase().includes('sheets')) {
+        localStorage.removeItem(key);
+        console.log(`✅ Removido do localStorage: ${key}`);
+      }
+    }
+    
+    // Limpar sessionStorage
+    for (let key of Object.keys(sessionStorage)) {
+      if (key.toLowerCase().includes('google') || key.toLowerCase().includes('sheets')) {
+        sessionStorage.removeItem(key);
+        console.log(`✅ Removido do sessionStorage: ${key}`);
+      }
+    }
+    
+    console.log('✅ Limpeza concluída. Apenas Supabase está autorizado.');
+  </script>
+  
+  <script src="app_novo.js"></script>
 </body>
 </html>

@@ -526,3 +526,110 @@ textarea { min-height: 100px; resize: none; }
   .cart-drawer { max-width: 100%; width: 100%; transform: translateY(100%); }
   .cart-overlay.open .cart-drawer { transform: translateY(0); }
 }
+
+/* ==========================================================================
+   CATEGORY SCROLL (Stories Style)
+   ========================================================================== */
+.category-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 15px;
+  padding: 20px 0;
+  margin: 20px 0;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE e Edge */
+}
+
+/* Chrome, Safari e Opera */
+.category-scroll::-webkit-scrollbar { display: none; }
+
+.category-track {
+  display: flex;
+  gap: 15px;
+  padding: 0 10px;
+  min-width: min-content;
+}
+
+/* Botão de Categoria */
+.cat-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.cat-thumb {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 2px solid var(--border-subtle);
+  object-fit: cover;
+  transition: all 0.3s ease;
+  background-color: #1a1a1a;
+}
+
+.cat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-align: center;
+  max-width: 70px;
+  word-break: break-word;
+  transition: all 0.3s ease;
+  line-height: 1.2;
+}
+
+/* Estado Ativo */
+.cat-btn.active .cat-thumb {
+  border-color: var(--color-gold-matte);
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.4);
+  transform: scale(1.05);
+}
+
+.cat-btn.active .cat-label {
+  color: var(--color-gold-matte);
+  font-weight: 600;
+}
+
+/* Hover */
+.cat-btn:hover .cat-thumb {
+  border-color: var(--color-gold-matte);
+  transform: scale(1.05);
+}
+
+.cat-btn:hover .cat-label {
+  color: #fff;
+}
+
+/* Mobile Responsivo */
+@media (max-width: 768px) {
+  .category-scroll {
+    gap: 12px;
+    padding: 15px 0;
+    margin: 15px 0;
+  }
+
+  .category-track {
+    gap: 12px;
+    padding: 0 5px;
+  }
+
+  .cat-thumb {
+    width: 55px;
+    height: 55px;
+    border-width: 2px;
+  }
+
+  .cat-label {
+    font-size: 0.65rem;
+    max-width: 60px;
+  }
+}
